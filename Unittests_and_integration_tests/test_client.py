@@ -1,27 +1,25 @@
 #!/usr/bin/env python3
-""" Unittests """
+""" client unittests """
 
 import unittest
-from parameterized import parameterized
-from utils import access_nested_map
+import json
+from parameterized import parameterized, parameterized_class
+from unittest import mock
+from unittest.mock import patch, Mock, PropertyMock
+from client import GithubOrgClient
 
 
-class TestAccessNestedMap(unittest.TestCase):
-    """ nested map test function """
-    @parameterized.expand([
-        ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2)
-    ])
-    def test_access_nested_map(self, nested_map, path, expected):
-        """ test access nested map """
-        self.assertEqual(access_nested_map(nested_map, path), expected)
+class TestGithubOrgClient(unittest.TestCase):
+    """ test json """
 
     @parameterized.expand([
-        ({}, ("a",)),
-        ({"a": 1}, ("a", "b"))
+        ('google'),
+        ('abc')
     ])
-    def test_access_nested_map_exception(self, nested_map, path):
-        """ test exception """
-        with self.assertRaises(KeyError):
-            access_nested_map(nested_map, path)
+    @patch('client.get_json')
+    def test_org(self, data, mock):
+        """ test the org of the client """
+        endpoint = 'https://api.github.com/orgs/{}'.format(data)
+        spec = GithubOrgClient(data)
+        spec.org()
+        mock.assert_called_once_with(endpoint)
