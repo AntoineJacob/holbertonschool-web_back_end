@@ -23,3 +23,13 @@ class TestGithubOrgClient(unittest.TestCase):
         spec = GithubOrgClient(data)
         spec.org()
         mock.assert_called_once_with(endpoint)
+
+    @parameterized.expand([
+        ("random-url", {'repos_url': 'http://some_url.com'})
+    ])
+    def test_public_repos_url(self, name, result):
+        """ test that _public_repos_url works """
+        with patch('client.GithubOrgClient.org',
+                   PropertyMock(return_value=result)):
+            response = GithubOrgClient(name)._public_repos_url
+            self.assertEqual(response, result.get('repos_url'))
