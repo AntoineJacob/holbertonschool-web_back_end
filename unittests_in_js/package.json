@@ -4,17 +4,15 @@
   "description": "This is the readme for the unittests_in_js project",
   "main": "0-calcul.js",
   "scripts": {
-    "test": "mocha --require esm"
+    "test": "_mocha"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^5.1.1",
-    "mocha": "^10.6.0",
-    "esm": "^3.2.25"
+    "mocha": "^10.6.0"
   },
   "dependencies": {
-    "esm": "^3.2.25"
+    "chai": "^5.1.1"
   }
 }
